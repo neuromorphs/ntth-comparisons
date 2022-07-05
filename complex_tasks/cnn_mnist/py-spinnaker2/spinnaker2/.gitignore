@@ -1,2 +1,5 @@
 venv/
 lib/
+__pycache__/
+~/
+spec.json
