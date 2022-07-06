@@ -12,7 +12,7 @@ Repository Organization
 
     +-- \ntth-comparisons       Top level 
          |
-         +-- \simple_tasks      Abstract or basic tasks.
+         +-- \tasks             Benchmark tasks
          |    |              
          |    +--\<task_name>   Name this folder with the task title.
          |        |                             
@@ -31,23 +31,6 @@ Repository Organization
          |        |    +-- ...
          |        |
          |        +-- ...     
-         |
-         +-- \complex_tasks     More real-world/realistic examples.
-         |    |              
-         |    +--\braille_letter_recognition    An example of task
-         |    |  |                              organization.
-         |    |  |
-         |    |  +--README.md
-         |    |  |
-         |    |  +--\spytorch                   The utilized framework
-         |    |      |
-         |    |      +--README.md
-         |    |      |
-         |    |      +--\cpu_gpu                The target architectures  
-         |    |      | 
-         |    |      +--\spinnaker
-         |    |                             
-         |    +--...
          |
          +-- LICENSE            License file.
          |
