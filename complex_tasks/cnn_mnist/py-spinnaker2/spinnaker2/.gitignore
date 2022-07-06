@@ -3,3 +3,4 @@ lib/
 __pycache__/
 ~/
 spec.json
+results.json

@@ -12,5 +12,16 @@ Install the required python packages to your virtual environment: `pip install -
 Make sure you have access to the `s2-sim2lab-app` repository, then run: `python install.py`
 
 # Run the test notebook
-The test is in notebook `cnn_mnist.pynb`.
+The test is in notebook `cnn_mnist.ipynb`.
 
+In order to make your python environment (aka `kernel`) visible to jupyter, you can do:
+1. Anaconda:
+```
+conda install nb_conda
+```
+2. Virtualenv called `myenv` (not tested):
+```
+pip install ipykernel
+python -m ipykernel install --name=myenv
+```
+Then select the kernel of your choice in the jupyter notebook.
