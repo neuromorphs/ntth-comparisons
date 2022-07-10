@@ -26,14 +26,9 @@ def weight_dist(size=(250,2),low=-15,high=15,dtype=np.int8):
                              high=high,
                              size=size).astype(dtype)
 
-def neuron_model(pop_size, mem_decay=0.9, exc_decay=0.5):
+def neuron_model(pop_size, mem_decay=0.95, exc_decay=0.8):
     return LifCurExp(pop_size, alpha_decay=mem_decay, exc_decay=exc_decay)
 
-# def freq(hz, dt=1e-3):
-#     return 2*np.pi*hz / dt
-
-# freq_hz = 0.02
-# osc_func = np.array([[1.0, freq(freq_hz)], [-freq(freq_hz), 1.0]])
 
 def get_weights(pop_size, train_inputs, damp_val=0, freq_val=1):
     '''
@@ -57,8 +52,7 @@ def get_weights(pop_size, train_inputs, damp_val=0, freq_val=1):
 
     # 1. get the firing curve    
     training_currents = np.linspace(0,25,200)
-    exc_decay=0.01
-    training_pop = neuron_model(1, mem_decay=0.999, exc_decay=exc_decay)
+    training_pop = neuron_model(1)
     firing_rate = get_fir_curve(training_currents, training_pop)
 
     # 2. Randomly sample the input weights and compute the currents
@@ -77,7 +71,8 @@ def get_weights(pop_size, train_inputs, damp_val=0, freq_val=1):
 
     print('decoding error:', np.sqrt(np.mean(np.linalg.norm(train_inputs - (decoder_weights @ activity).T, axis=1)**2)))
 
-    osc_func = np.array([[1.0, freq_val], [-freq_val, 1.0]])
+    osc_func = np.array([[1.01, training_pop.exc_decay * freq_val], 
+                         [-training_pop.exc_decay * freq_val, 1.01]])
     feedback_weights = input_weights @ osc_func @ decoder_weights
     feedback_weights = np.round(feedback_weights).astype(np.int8)
 
@@ -88,8 +83,7 @@ def simulate(input_weights, decode_weights, feedback_weights,T=1e3):
    
     T = int(T)
     pop_size, input_dim  = input_weights.shape
-    exc_decay = 0.5
-    neuron_pop = neuron_model(pop_size, mem_decay=0.9, exc_decay=exc_decay)
+    neuron_pop = neuron_model(pop_size)
 
     feedback_current = np.zeros((pop_size,))
     decoded_state = np.zeros((T, input_dim))
@@ -100,7 +94,7 @@ def simulate(input_weights, decode_weights, feedback_weights,T=1e3):
         if t < 2: # less than 15 msec, assuming dt=1e-3
             stim_cur = input_weights @ np.array([[0],[1]])
 
-        spikes = neuron_pop(feedback_current/exc_decay + stim_cur.flatten())
+        spikes = neuron_pop(feedback_current + stim_cur.flatten())
 
         decoded_state[t,:] = decode_weights @ spikes
         feedback_current = feedback_weights @ spikes
@@ -117,8 +111,8 @@ if __name__=='__main__':
     np.random.seed(0)
     input_weights, decode_weights, feedback_weights = get_weights(pop_size, 
                                                                   xs,
-                                                                  damp_val=2,
-                                                                  freq_val=0.4)
+                                                                  damp_val=1,
+                                                                  freq_val=3)
 
 
     times, decoded_state = simulate(input_weights, 
