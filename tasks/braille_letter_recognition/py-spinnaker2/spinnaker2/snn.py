@@ -4,7 +4,7 @@ import helpers
 from spinnaker2 import snn, hardware
 import numpy as np
 
-file_weights = "tasks/braille_letter_recognition/data/trained/layers_th1.pt"
+file_weights = "tasks/braille_letter_recognition/data/trained/layers_th1.npz"
 file_dataset = "tasks/braille_letter_recognition/data/reading/data_th1_rpNull"
 
 # Network definitions
@@ -24,7 +24,8 @@ weight_scale_factor = 0.01
 reg_spikes = 0.004
 reg_neurons = 0.000001
 
-w_input_pop, w_pop_out, w_pop_pop = braille_helpers.load_pt_weights(file_weights)
+#w_input_pop, w_pop_out, w_pop_pop = braille_helpers.load_pt_weights(file_weights)
+w_input_pop, w_pop_out, w_pop_pop = braille_helpers.load_np_weights(file_weights)
 
 # Get 1 random sample from the dataset
 max_time = int(54 * 25)  # ms

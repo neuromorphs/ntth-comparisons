@@ -2,7 +2,7 @@ import pickle
 import random
 import numpy as np
 import helpers
-import torch
+#import torch
 
 letters = [
     "Space",
@@ -76,6 +76,15 @@ def get_random_braille_sample(file_dataset, time_bin_size, n_input_copies, max_t
 
     return spikes_dict_AER, label
 
+
+def load_np_weights(file_weights):
+    weights = np.load(file_weights)
+    w_input_pop = weights["w_input_pop"]
+    w_pop_out = weights["w_pop_out"]
+    w_pop_pop = weights["w_pop_pop"]
+    return w_input_pop, w_pop_out, w_pop_pop
+
+'''
 def load_pt_weights(file_weights):
     # Load weights and convert to int8
     weights = torch.load(file_weights, map_location=torch.device("cpu"))
@@ -91,3 +100,4 @@ def load_pt_weights(file_weights):
     w_pop_pop = helpers.scale_and_convert_weights_to_int8(w_pop_pop)
 
     return w_input_pop, w_pop_out, w_pop_pop
+'''
