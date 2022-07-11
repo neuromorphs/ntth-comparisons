@@ -1,3 +1,2 @@
 numpy==1.23.1
 scipy==1.8.1
--e git+https://gitlab.com/spinnaker2/py-spinnaker2.git@96540d65a958b740708b9829018db4154e7cc973#egg=spinnaker2
