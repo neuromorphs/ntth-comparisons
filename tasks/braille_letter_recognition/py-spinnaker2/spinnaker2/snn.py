@@ -1,4 +1,3 @@
-import torch
 import braille_helpers
 import helpers
 from spinnaker2 import snn, hardware
