@@ -16,6 +16,7 @@ delay = 0
 scale = 5
 time_bin_size = 8
 n_input_copies = 4
+
 tau_mem = 0.06
 tau_ratio = 10
 fwd_weight_scale = 1
@@ -42,21 +43,34 @@ pop_input = snn.Population(
 
 time_step = time_bin_size * 0.001
 tau_syn = tau_mem / tau_ratio
+'''
 neuron_params = {
     "alpha_decay": float(np.exp(-time_step / tau_syn)),
     "threshold": 1.0,
 }
+'''
+
+neuron_params = {
+    "reset":"reset_to_v_reset",
+    "threshold":1.0,
+    "alpha_decay":float(np.exp(-time_step/tau_mem)),
+    "i_offset":0,
+    "v_reset":0,
+    "exc_decay":float(np.exp(-time_step / tau_syn)),
+    "inh_decay":float(np.exp(-time_step / tau_syn)),
+    "t_refrac":0
+}
 
 pop_rsnn = snn.Population(
     size=population_size,
-    neuron_model="lif_no_delay",
+    neuron_model="lif_curr_exp",
     params=neuron_params,
     name="pop_rsnn",
 )
 
 pop_output = snn.Population(
     size=output_size,
-    neuron_model="lif_no_delay",
+    neuron_model="lif_curr_exp",
     params=neuron_params,
     name="pop_output",
 )
