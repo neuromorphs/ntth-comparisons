@@ -1,8 +1,8 @@
 # Required software
 - Python
 - Conda
-- [NEST Simulator](https://www.nest-simulator.org/)
-- [PyNN](https://neuralensemble.org/PyNN/)
+- [SpiNNaker 2 Repo](https://gitlab.com/spinnaker2/py-spinnaker2/-/tree/main)
+- [SpiNNaker 2 Wiki](https://gitlab.com/spinnaker2/py-spinnaker2/-/wikis/SNN-Python-Interface)
 
 # Getting started
 
