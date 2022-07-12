@@ -36,7 +36,6 @@ pip install seaborn==0.11.2
 git clone git@gitlab.com:spinnaker2/py-spinnaker2.git
 cd py-spinnaker2
 pip install -e .
-
 ```
 
 ## Run the simulation
@@ -45,7 +44,3 @@ The default pretrained network used is composed by DNN with 4 neuron in the inpu
 conda activate ntth
 python main_spinnaker2.py
 ```
-
-
-
-
