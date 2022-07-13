@@ -94,7 +94,7 @@ def scale_and_convert_weights_to_int8(*args, scaling_factor=None):
         weights_scaled = []
 
     for tf_weights in args:
-        tmp = tf_weights*scaling_factor
+        tmp = np.rint(tf_weights*scaling_factor)
         if len(args) > 1:
             weights_scaled.append(tmp.astype(np.int8))
         else:
