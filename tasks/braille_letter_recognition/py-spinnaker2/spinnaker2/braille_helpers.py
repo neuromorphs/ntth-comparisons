@@ -2,7 +2,8 @@ import pickle
 import random
 import numpy as np
 import helpers
-#import torch
+
+# import torch
 
 letters = [
     "Space",
@@ -76,6 +77,7 @@ def get_random_braille_sample(file_dataset, time_bin_size, n_input_copies, max_t
 
     return spikes_dict_AER, label
 
+
 def scale_and_convert_weights_to_int8(*args, scaling_factor=None):
     """
     convert weights from float to int8 with normalization
@@ -88,13 +90,13 @@ def scale_and_convert_weights_to_int8(*args, scaling_factor=None):
             tmp = np.abs(tf_weights).max()
             if tmp > max_abs_weight:
                 max_abs_weight = tmp
-        scaling_factor = (127/max_abs_weight)
+        scaling_factor = 127 / max_abs_weight
 
     if len(args) > 1:
         weights_scaled = []
 
     for tf_weights in args:
-        tmp = np.rint(tf_weights*scaling_factor)
+        tmp = np.rint(tf_weights * scaling_factor)
         if len(args) > 1:
             weights_scaled.append(tmp.astype(np.int8))
         else:
@@ -102,19 +104,23 @@ def scale_and_convert_weights_to_int8(*args, scaling_factor=None):
 
     return weights_scaled, scaling_factor
 
+
 def load_np_weights(file_weights):
     weights = np.load(file_weights)
     w_input_pop = weights["w_input_pop"]
     w_pop_out = weights["w_pop_out"]
     w_pop_pop = weights["w_pop_pop"]
 
-    (w_input_pop, w_pop_pop), _ = scale_and_convert_weights_to_int8(w_input_pop, w_pop_pop)
+    (w_input_pop, w_pop_pop), pop_th_scaling = scale_and_convert_weights_to_int8(
+        w_input_pop, w_pop_pop
+    )
 
-    w_pop_out, _ = scale_and_convert_weights_to_int8(w_pop_out)
+    w_pop_out, out_th_scaling = scale_and_convert_weights_to_int8(w_pop_out)
 
-    return w_input_pop, w_pop_out, w_pop_pop
+    return w_input_pop, w_pop_out, w_pop_pop, pop_th_scaling, out_th_scaling
 
-'''
+
+"""
 def load_pt_weights(file_weights):
     # Load weights and convert to int8
     weights = torch.load(file_weights, map_location=torch.device("cpu"))
@@ -130,4 +136,4 @@ def load_pt_weights(file_weights):
     w_pop_pop = helpers.scale_and_convert_weights_to_int8(w_pop_pop)
 
     return w_input_pop, w_pop_out, w_pop_pop
-'''
+"""

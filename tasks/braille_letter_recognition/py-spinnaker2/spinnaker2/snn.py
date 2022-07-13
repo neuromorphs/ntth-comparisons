@@ -31,7 +31,7 @@ reg_spikes = 0.004
 reg_neurons = 0.000001
 
 #w_input_pop, w_pop_out, w_pop_pop = braille_helpers.load_pt_weights(file_weights)
-w_input_pop, w_pop_out, w_pop_pop = braille_helpers.load_np_weights(file_weights)
+w_input_pop, w_pop_out, w_pop_pop, rsnn_th_scaling, out_th_scaling = braille_helpers.load_np_weights(file_weights)
 print(w_input_pop)
 print("input", w_input_pop.shape)
 print("ouput", w_pop_out.shape)
@@ -69,7 +69,7 @@ neuron_params = {
 
 neuron_params_rsnn = {
     "reset":"reset_to_v_reset",
-    "threshold":1.0/weight_scale_factor,
+    "threshold":1.0*rsnn_th_scaling,
     "alpha_decay":float(np.exp(-time_step/tau_mem)),
     "i_offset":0,
     "v_reset":0,
@@ -81,7 +81,8 @@ print(neuron_params_rsnn)
 
 neuron_params_output = {
     "reset":"reset_to_v_reset",
-    "threshold":1e9,  # set to non-spiking
+    #"threshold":1e9,  # set to non-spiking
+    "threshold": 1.0 * out_th_scaling,
     "alpha_decay":float(np.exp(-time_step/tau_mem)),
     "i_offset":0,
     "v_reset":0,
